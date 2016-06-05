@@ -89,20 +89,20 @@ mergedSet$activityName <- activityLabels[mergedSet$activityNumber,]$activityName
 mergedSet$activityNumber <- NULL
 
 # Appropriately label the data set with descriptive variable names.
-names(mergedSet) <- tolower(names(mergedSet)) 							# all lowercase
-names(mergedSet) <- gsub("activityname", "activity", names(mergedSet))	# "activity" is sufficient
-names(mergedSet) <- gsub("-", "_", names(mergedSet))					# all underscores
-names(mergedSet) <- gsub("\\(\\)", "", names(mergedSet))				# remove parentheses
-names(mergedSet) <- gsub("^t", "time_", names(mergedSet))				# t stands for time
-names(mergedSet) <- gsub("^f", "frequency_", names(mergedSet))			# f stands for frequency
-names(mergedSet) <- gsub("_body", "_body_", names(mergedSet))			# separate with underscore
-names(mergedSet) <- gsub("_body_body", "_body_", names(mergedSet))		# remove duplicates
-names(mergedSet) <- gsub("_gravity", "_gravity_", names(mergedSet))		# separate with underscore
-names(mergedSet) <- gsub("_acc", "_accelerometer_", names(mergedSet))	# acc stands for accelerometer
-names(mergedSet) <- gsub("_gyro", "_gyroscope_", names(mergedSet))		# gyro stands for gyroscope
-names(mergedSet) <- gsub("jerkmag", "jerk_mag", names(mergedSet))		# separate with underscore
-names(mergedSet) <- gsub("mag", "magnitude", names(mergedSet))			# mag stands for magnitude
-names(mergedSet) <- gsub("__", "_", names(mergedSet))					# remove duplicates
+names(mergedSet) <- tolower(names(mergedSet))                           # all lowercase
+names(mergedSet) <- gsub("activityname", "activity", names(mergedSet))  # "activity" is sufficient
+names(mergedSet) <- gsub("-", "_", names(mergedSet))                    # all underscores
+names(mergedSet) <- gsub("\\(\\)", "", names(mergedSet))                # remove parentheses
+names(mergedSet) <- gsub("^t", "time_", names(mergedSet))               # t stands for time
+names(mergedSet) <- gsub("^f", "frequency_", names(mergedSet))          # f stands for frequency
+names(mergedSet) <- gsub("_body", "_body_", names(mergedSet))           # separate with underscore
+names(mergedSet) <- gsub("_body_body", "_body_", names(mergedSet))      # remove duplicates
+names(mergedSet) <- gsub("_gravity", "_gravity_", names(mergedSet))     # separate with underscore
+names(mergedSet) <- gsub("_acc", "_accelerometer_", names(mergedSet))   # acc stands for accelerometer
+names(mergedSet) <- gsub("_gyro", "_gyroscope_", names(mergedSet))      # gyro stands for gyroscope
+names(mergedSet) <- gsub("jerkmag", "jerk_mag", names(mergedSet))       # separate with underscore
+names(mergedSet) <- gsub("mag", "magnitude", names(mergedSet))          # mag stands for magnitude
+names(mergedSet) <- gsub("__", "_", names(mergedSet))                   # remove duplicates
 
 # Sort column names alphabetically
 mergedSet <- mergedSet[, order(names(mergedSet))]
@@ -111,14 +111,14 @@ mergedSet <- mergedSet[, order(names(mergedSet))]
 mergedSet <- mergedSet[, c("subject", setdiff(names(mergedSet), "subject"))] 
 
 # Save merged set
-write.table(mergedSet, file = "merged.txt")
+write.table(mergedSet, file = "merged.txt", row.name=FALSE)
 
 
 # Create a second, independent tidy data set with the average of each variable for each activity and each subject.
 summarySet <- group_by(mergedSet, subject, activity) %>% 
-	summarize_each(funs(mean)) %>% 
-	arrange(subject, activity)
-	
+    summarize_each(funs(mean)) %>% 
+    arrange(subject, activity)
+    
 # Save summary set
-write.table(summarySet, file = "summary.txt")
+write.table(summarySet, file = "summary.txt", row.name=FALSE)
 
